@@ -1,0 +1,52 @@
+<template>
+  <el-menu
+    :default-active="activeIndex2"
+    class="el-menu-demo"
+    mode="horizontal"
+    @select="handleSelect"
+    background-color="#545c64"
+    text-color="#fff"
+    active-text-color="#ffd04b"
+    router
+  >
+    <el-menu-item style="width: calc(50% - 600px)"
+      ><i class="el-icon-paperclip"></i>BLOG</el-menu-item
+    >
+    <el-menu-item index="index">首页</el-menu-item>
+    <el-menu-item index="essay">随笔</el-menu-item>
+    <el-menu-item index="timeline">时间轴</el-menu-item>
+    <el-menu-item index="message">留言</el-menu-item>
+    <el-menu-item index="user" style="margin-left: 840px"
+      ><el-avatar size="small" :src="circleUrl"></el-avatar
+    ></el-menu-item>
+  </el-menu>
+</template>
+
+<script>
+export default {
+  name: "Header",
+  data() {
+    return {
+      activeIndex: "index",
+      activeIndex2: "index",
+      circleUrl:
+        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+    };
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+.el-menu-demo {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60.75px;
+  z-index: 1000;
+}
+</style>
