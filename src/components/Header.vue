@@ -16,7 +16,18 @@
     <el-menu-item index="essay">随笔</el-menu-item>
     <el-menu-item index="timeline">时间轴</el-menu-item>
     <el-menu-item index="message">留言</el-menu-item>
-    <el-menu-item index="user" style="margin-left: 840px"
+    <el-menu-item index="about">关于</el-menu-item>
+    <el-menu-item style="margin-left: 465px"
+      ><el-input
+        placeholder="请输入内容"
+        v-model="input3"
+        class="input-with-select"
+        style="width: 273px"
+      >
+        <el-button slot="append" icon="el-icon-search"></el-button> </el-input
+    ></el-menu-item>
+
+    <el-menu-item index="user"
       ><el-avatar size="small" :src="circleUrl"></el-avatar
     ></el-menu-item>
   </el-menu>

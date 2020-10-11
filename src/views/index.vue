@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="index">
     <ArticleList />
     <CardList />
   </div>
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-div {
+#index {
     display: flex;
     height: 100%;
 }
