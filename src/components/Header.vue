@@ -41,7 +41,8 @@ export default {
       activeIndex: "index",
       activeIndex2: "index",
       circleUrl:
-        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+      input3: ""
     };
   },
   methods: {

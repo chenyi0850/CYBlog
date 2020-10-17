@@ -1,6 +1,7 @@
 <template>
   <div id="CardList">
-    <CardItem />
+    <card-item><i class="el-icon-paperclip"></i> 友情链接</card-item>
+    <card-item><i class="el-icon-document"></i> 最新文章</card-item>
   </div>
 </template>
 
@@ -19,8 +20,8 @@ export default {
 
 <style lang="less" scoped>
 #CardList {
-    width: 400px;
+    width: 380px;
     height: 100%;
-    background: red;
+    // background: red;
 }
 </style>

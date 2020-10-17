@@ -5,10 +5,12 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view /> -->
-    <Header/>
+    <Header />
     <article>
       <router-view></router-view>
     </article>
+    <el-backtop></el-backtop>
+    <div id="background"></div>
   </div>
 </template>
 
@@ -31,16 +33,21 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #E6E6E6;
   // text-align: center;
   // color: #76a8db;
 }
-
+#background {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -5000;
+  background: #E6E6E6;
+}
 article {
   margin: 62px auto 0;
   width: 1200px;
-  background:#EBEEF5;
-  height: 2000px;
+  // background:#EBEEF5;
 }
 // #nav {
 //   padding: 30px;

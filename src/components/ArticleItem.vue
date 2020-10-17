@@ -31,12 +31,22 @@ export default {
   height: 200px;
   padding: 10px 25px 0;
   // background: floralwhite;
+  // box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  // background:#EBEEF5;
+  background: #FFFFFF;
 }
+#ArticleItem:hover {
+    // box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
 p {
   font-size: 16px;
   margin-top: 10px;
   height: 128px;
   overflow: hidden;
+  line-height: 25px;
 }
 #itemFooter {
   margin-top: 10px;
