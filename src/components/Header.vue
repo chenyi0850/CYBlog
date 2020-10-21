@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    :default-active="activeIndex2"
+    :default-active="activeIndex"
     class="el-menu-demo"
     mode="horizontal"
     @select="handleSelect"
@@ -39,7 +39,6 @@ export default {
   data() {
     return {
       activeIndex: "index",
-      activeIndex2: "index",
       circleUrl:
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
       input3: ""

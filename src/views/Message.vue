@@ -1,13 +1,24 @@
 <template>
-  <div>留言</div>
+  <div id="Message">
+    <message-list></message-list>
+    <card-list></card-list>
+  </div>
 </template>
 
 <script>
+import MessageList from "@/components/MessageList.vue"
+import CardList from "@/components/CardList"
 export default {
-
+  name: "Message",
+  components: {
+    MessageList,
+    CardList
+  }
 }
 </script>
 
 <style>
-
+#Message {
+  display: flex;
+}
 </style>
