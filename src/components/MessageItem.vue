@@ -38,17 +38,7 @@
           <el-link @click="reply" style="margin-left:20px">回复</el-link>
         </div>
         <transition name="el-zoom-in-top">
-          <el-input
-            type="textarea"
-            placeholder="请输入内容"
-            v-model="textarea"
-            maxlength="300"
-            show-word-limit
-            v-if="showReply"
-            style="margin-top:10px"
-            @blur="replyBlur"
-          >
-          </el-input>
+          <comment-editor :buttonText="buttonText" v-show="showReply"></comment-editor>
         </transition>
       </div>
     </div>
@@ -56,8 +46,12 @@
 </template>
 
 <script>
+import CommentEditor from "comment-message-editor";
 export default {
   name: "MessageItem",
+  components: {
+    CommentEditor
+  },
   data() {
     return {
       zanUrl: require("@/assets/zan-l.png"),
@@ -69,7 +63,7 @@ export default {
       zanFlag: false, //判断是否是点过赞的状态
       caiFlag: false, //判断是否是点过灭的状态
       showReply: false, //是否显示回复输入框
-      textarea: ""
+      buttonText: "回复"
     };
   },
   methods: {
@@ -127,7 +121,7 @@ export default {
       }
     },
     reply() {
-      this.showReply = true;
+      this.showReply = !this.showReply;
     },
     replyBlur() {
       this.showReply = false;
@@ -180,5 +174,27 @@ export default {
 }
 #bottom img:hover {
   cursor: pointer;
+}
+</style>
+<style lang="less">
+#MessageItem {
+  .comment-editor {
+    margin-top: 10px;
+  }
+  .content {
+    height: 150px;
+  }
+  .button-text {
+    display: none;
+  }
+  .emoji-picker {
+    position: relative !important;
+  }
+  .footer-action {
+    justify-content: space-between;
+  }
+  .submit-tiptext {
+    display: none;
+  }
 }
 </style>
