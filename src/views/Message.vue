@@ -1,7 +1,7 @@
 <template>
   <div id="Message">
     <message-list></message-list>
-    <card-list></card-list>
+    <card-list>最新博客</card-list>
   </div>
 </template>
 
