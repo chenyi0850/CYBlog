@@ -25,22 +25,37 @@ const routes = [
   {
     path: "/timeline",
     name: "Timeline",
-    component: () => import(/* webpackChunkName: "timeline" */ "../views/Timeline.vue")
+    component: () => import(/* webpackChunkName: "Timeline" */ "../views/Timeline.vue")
   },
   {
     path: "/message",
     name: "Message",
-    component: () => import(/* webpackChunkName: "message" */ "../views/Message.vue")
+    component: () => import(/* webpackChunkName: "Message" */ "../views/Message.vue")
   },
   {
     path: "/user",
     name: "User",
-    component: () => import(/* webpackChunkName: "user" */ "../views/User.vue")
+    component: () => import(/* webpackChunkName: "User" */ "../views/User.vue")
   },
   {
     path: "/about",
     name: "About",
     component: () => import(/* webpackChunkName: "About" */ "../views/About.vue")
+  },
+  {
+    path: "/articleDetail",
+    name: "ArticleDetail",
+    component: () => import(/* webpackChunkName: "ArticleDetail" */ "../views/ArticleDetail.vue")
+  },
+  {
+    path: "/writeArticle",
+    name: "WriteArticle",
+    component: () => import(/* webpackChunkName: "WriteArticle" */ "../views/WriteArticle.vue")
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import(/* webpackChunkName: "Login" */ "../views/Login.vue")
   }
 ];
 

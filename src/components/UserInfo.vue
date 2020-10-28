@@ -116,21 +116,25 @@ export default {
         case 2: {
           this.$refs.nick.disabled = !this.$refs.nick.disabled;
           this.$refs.nick.select();
+          document.getElementsByClassName("el-divider--horizontal")[1].style.backgroundColor = "#409eff"
           break;
         }
         case 3: {
           this.$refs.password.disabled = !this.$refs.password.disabled;
           this.$refs.password.select();
+          document.getElementsByClassName("el-divider--horizontal")[2].style.backgroundColor = "#409eff"
           break;
         }
         case 4: {
           this.$refs.email.disabled = !this.$refs.email.disabled;
           this.$refs.email.select();
+          document.getElementsByClassName("el-divider--horizontal")[3].style.backgroundColor = "#409eff"
           break;
         }
         case 5: {
           this.$refs.phoneNum.disabled = !this.$refs.phoneNum.disabled;
           this.$refs.phoneNum.select();
+          document.getElementsByClassName("el-divider--horizontal")[4].style.backgroundColor = "#409eff"
           break;
         }
       }

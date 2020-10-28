@@ -1,6 +1,6 @@
 <template>
   <div id="ArticleList">
-    <article-item v-for="item in articleItems" :key="item.title" :itemData="item"/>
+    <article-item v-for="item in articleItems" :key="item.title" :itemData="item" @click.native="toArticleDetail"/>
     <pagination v-if="isPagiExit"/>
   </div>
 </template>
@@ -20,6 +20,11 @@ export default {
   data() {
     return {
       isPagiExit: false
+    }
+  },
+  methods: {
+    toArticleDetail() {
+      this.$router.push("/ArticleDetail")
     }
   },
   created() {

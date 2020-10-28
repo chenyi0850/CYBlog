@@ -4,10 +4,10 @@
       <el-tab-pane label="我的动态" name="first">
         <Timeline/>
       </el-tab-pane>
-      <el-tab-pane label="我的博客" name="second">我的博客</el-tab-pane>
-      <el-tab-pane label="我的随笔" name="third">我的随笔</el-tab-pane>
-      <el-tab-pane label="我评论的" name="fourth">我评论的</el-tab-pane>
-      <el-tab-pane label="我的收藏" name="fifth">我的收藏</el-tab-pane>
+      <el-tab-pane label="我的博客" name="second"><el-button type="primary">写博客</el-button></el-tab-pane>
+      <el-tab-pane label="我的随笔" name="third"><el-button type="primary">写随笔</el-button></el-tab-pane>
+      <el-tab-pane label="我评论的" name="fourth">评论</el-tab-pane>
+      <el-tab-pane label="我的收藏" name="fifth">收藏</el-tab-pane>
     </el-tabs>
   </el-card>
 </template>
