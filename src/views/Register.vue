@@ -1,7 +1,7 @@
 <template>
-  <div id="Login">
+  <div id="Register">
     <el-card id="card">
-        <h2>登录</h2>
+        <h2>注册</h2>
         <el-divider></el-divider>
         <div class="line">
             <p>用户名:</p>
@@ -11,28 +11,36 @@
             <p>密码:</p>
             <el-input></el-input>
         </div>
+        <div class="line">
+            <p>邮箱:</p>
+            <el-input></el-input>
+        </div>
+        <div class="line">
+            <p>手机号:</p>
+            <el-input></el-input>
+        </div>
         <div id="bottom">
-            <el-button>登录</el-button>
+            <el-button>注册</el-button>
             <el-button>重置</el-button>
         </div>
     </el-card>
-    <div id="tip">还没账号？先<el-link @click="toRegister">注册</el-link></div> 
+    <div id="tip">注册过了？去 <el-link @click="toLogin">登录</el-link></div> 
   </div>
 </template>
 
 <script>
 export default {
-  name: "Login",
+  name: "Register",
   methods: {
-      toRegister() {
-          this.$router.push("/register")
+      toLogin() {
+          this.$router.push("/login")
       }
   }
 };
 </script>
 
 <style lang="less" scoped>
-#Login {
+#Register {
   position: fixed;
   width: 100%;
   height: 100%;

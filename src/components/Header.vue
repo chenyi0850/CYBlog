@@ -17,7 +17,12 @@
     <el-menu-item index="timeline">时间轴</el-menu-item>
     <el-menu-item index="message">留言</el-menu-item>
     <el-menu-item index="about">关于</el-menu-item>
-    <el-menu-item style="margin-left: 465px"
+    <el-submenu index="writeArticle">
+      <template slot="title">{{ writeTitle }}</template>
+      <el-menu-item index="writeArticle">写博客</el-menu-item>
+      <el-menu-item index="writeEssay">写随笔</el-menu-item>
+    </el-submenu>
+    <el-menu-item style="margin-left: 350px"
       ><el-input
         placeholder="请输入内容"
         v-model="input3"
@@ -41,12 +46,18 @@ export default {
       activeIndex: "index",
       circleUrl:
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-      input3: ""
+      input3: "",
+      writeTitle: "写博客"
     };
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+      if(key == "writeArticle") {
+        this.writeTitle = "写博客"
+      } else {
+        this.writeTitle = "写随笔"
+      }
     }
   }
 };
