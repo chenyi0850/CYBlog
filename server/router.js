@@ -15,21 +15,43 @@ router.get('/list', (req, res) => {
 })
 
 
+
+// 用户模型相关接口
 const user = require("./models/users")
+// 注册
 router.post('/register', (req, res) => {
     console.log(req.body)
-    user.create(req.body, err => {
-        if(!err) {
-            console.log("保存成功")
-        }
+    user.create(req.body).then(result => {
+        console.log(result)
+        res.send("注册成功")
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json(err)
+        res.send("注册失败，请稍后重试")
     })
-    // const newUser = new user(req.body)
-    // newUser.save(err => {
-    //     if(!err) {
-    //         console.log("保存成功")
-    //     }
-    // })
-    res.send(req.body)
 })
+
+// 登录
+router.post('/login', (req, res) => {
+    console.log(req.body)
+    user.findOne({username: req.body.username}).then((result) => {
+        if(result) {
+            if(result.password !== req.body.password) {
+                res.send("密码输入错误")
+            } else {
+                res.send("登录成功")
+            }
+        } else {
+            res.send("用户名输入错误")
+        }
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json(err)
+        res.send("登录失败，请稍后重试")
+    })
+})
+
+
+
 
 module.exports = router
