@@ -8,11 +8,15 @@
 <script>
 import ArticleList from "@/components/ArticleList.vue";
 import CardList from "@/components/CardList.vue";
+import {request} from "@/network/request.js"
 export default {
   name: "index",
   components: {
     ArticleList,
     CardList
+  },
+  created(){
+    request().then(res=>console.log(res))
   },
   data() {
     return {
