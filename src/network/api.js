@@ -17,3 +17,21 @@ export const login = data => {
         data
     })
 }
+
+export const addArticle = data => {
+    console.log("进入添加文章api")
+    return request({
+        url: "/addArticle",
+        method: "post",
+        data
+    })
+}
+
+export const getArticleDetail = data => {
+    console.log("进入获取文章详情api")
+    return request({
+        url: "/getArticleDetail",
+        method: "get",
+        params: data
+    })
+}

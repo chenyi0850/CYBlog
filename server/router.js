@@ -18,6 +18,7 @@ router.get('/list', (req, res) => {
 
 // 用户模型相关接口
 const user = require("./models/users")
+
 // 注册
 router.post('/register', (req, res) => {
     console.log(req.body)
@@ -52,6 +53,22 @@ router.post('/login', (req, res) => {
 })
 
 
+// 博客模型相关接口
+const article = require("./models/articles")
 
+// 添加博客
+router.post('/addArticle', async (req, res) => {
+    console.log(req.body)
+    const result = await article.create(req.body)
+    console.log(result)
+    res.send("保存成功")
+})
+// 获取博客内容
+router.get('/getArticleDetail', async (req, res) => {
+    console.log(req.query.id)
+    const result = await article.findOne({_id: req.query.id})
+    console.log(result)
+    res.send(result.content)
+})
 
 module.exports = router

@@ -1,5 +1,3 @@
-const { Mongoose } = require("mongoose")
-
 require("../tools/conn_mongodb")
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema

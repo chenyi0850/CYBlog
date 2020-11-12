@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { addArticle } from "@/network/api";
 export default {
   name: "WriteArticle",
   data() {
@@ -14,8 +15,15 @@ export default {
     };
   },
   methods: {
-    save() {
+    async save() {
       console.log(this.value)
+      const result = await addArticle({
+        title: "我是标题",
+        content: this.value,
+        author: "admin",
+        time: "20201109"
+      })
+      console.log(result)
     }
   }
 };
