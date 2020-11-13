@@ -1,44 +1,75 @@
 <template>
   <div id="ArticleList">
-    <article-item v-for="item in articleItems" :key="item.title" :itemData="item" @click.native="toArticleDetail"/>
-    <pagination v-if="isPagiExit"/>
+    <article-item
+      v-for="item in articleItems"
+      :key="item.title"
+      :itemData="item"
+      @click.native="toArticleDetail(item._id)"
+    />
+    <el-pagination
+      @current-change="handleCurrentChange"
+      :current-page.sync="currentPage"
+      :page-size="limit"
+      layout="prev, pager, next, jumper"
+      background
+      :total="totalItems"
+      style="text-align: center;"
+    >
+    </el-pagination>
   </div>
 </template>
 
 <script>
 import ArticleItem from "./ArticleItem";
-import Pagination from "./Pagination";
+import { getArticles } from "@/network/api.js";
 export default {
   name: "ArticleList",
   components: {
-    ArticleItem,
-    Pagination
-  },
-  props: {
-    articleItems: Array
+    ArticleItem
   },
   data() {
     return {
-      isPagiExit: false
-    }
+      currentPage: 1,
+      totalItems: 0,
+      limit: 8,
+      articleItems: []
+    };
   },
   methods: {
-    toArticleDetail() {
-      this.$router.push("/ArticleDetail")
+    // 获取文章列表请求
+    getArticles(skip) {
+      getArticles({
+        limit: this.limit,
+        skip
+      }).then(res => {
+        console.log(res.data);
+        this.articleItems = res.data.articles;
+        this.totalItems = res.data.count;
+      });
+    },
+    // 页码改变
+    handleCurrentChange(val) {
+      this.getArticles((val - 1) * this.limit)
+    },
+    toArticleDetail(_id) {
+      console.log(_id);
+      this.$router.push({
+        name: "ArticleDetail",
+        query: {
+          _id
+        }
+      });
     }
   },
   created() {
-    if(this.articleItems.length >= 8) this.isPagiExit = true
+    this.getArticles(0)
   }
 };
 </script>
 
 <style lang="less" scoped>
 #ArticleList {
-  // margin: 10px;
   width: 820px;
-  // height: 100%;
-  // background: green;
   display: flex;
   flex-direction: column;
   padding-bottom: 20px;

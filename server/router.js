@@ -35,9 +35,9 @@ router.post('/register', (req, res) => {
 // 登录
 router.post('/login', (req, res) => {
     console.log(req.body)
-    user.findOne({username: req.body.username}).then((result) => {
-        if(result) {
-            if(result.password !== req.body.password) {
+    user.findOne({ username: req.body.username }).then((result) => {
+        if (result) {
+            if (result.password !== req.body.password) {
                 res.send("密码输入错误")
             } else {
                 res.send("登录成功")
@@ -63,12 +63,25 @@ router.post('/addArticle', async (req, res) => {
     console.log(result)
     res.send("保存成功")
 })
-// 获取博客内容
+
+// 获取博客内容详情
 router.get('/getArticleDetail', async (req, res) => {
     console.log(req.query.id)
-    const result = await article.findOne({_id: req.query.id})
+    const result = await article.findOne({ _id: req.query.id })
     console.log(result)
     res.send(result.content)
+})
+
+// 获取博客列表
+router.get('/getArticles', async (req, res) => {
+    console.log(req.query)
+    const articles = await article.find().sort({_id:-1}).limit(parseInt(req.query.limit)).skip(parseInt(req.query.skip))
+    const count = await article.countDocuments()
+    articles.forEach(val => {
+        val = val.content.substring(0, 330)
+    })
+    res.send({ articles, count })
+    // console.log(result)
 })
 
 module.exports = router

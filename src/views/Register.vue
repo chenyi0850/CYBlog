@@ -64,6 +64,7 @@
 
 <script>
 import { register } from "@/network/api";
+import { inputInspect } from "@/tools/inputInspect"
 export default {
   name: "Register",
   data() {
@@ -79,48 +80,9 @@ export default {
     toLogin() {
       this.$router.push("/login");
     },
-    inputInspect(name, string, reg) {
-      if (!string) {
-        this.$message({
-          message: `${name}不能为空`,
-          type: "warning"
-        });
-        return false;
-      }
-      if (!reg.test(string)) {
-        if (name === "用户名") {
-          this.$message({
-            message:
-              "用户名只能以字母开头，长度在5~16之间，只能由字母，数字，下划线组成",
-            type: "warning"
-          });
-        }
-        if (name === "密码") {
-          this.$message({
-            message:
-              "密码需要以字母开头，长度在6~18之间，只能包含字母、数字和下划线",
-            type: "warning"
-          });
-        }
-        if (name === "邮箱") {
-          this.$message({
-            message: "邮箱格式错误",
-            type: "warning"
-          });
-        }
-        if (name === "手机号") {
-          this.$message({
-            message: "手机号格式错误",
-            type: "warning"
-          });
-        }
-        return false;
-      }
-      return true;
-    },
     register() {
       if (
-        !this.inputInspect(
+        !inputInspect(
           "用户名",
           this.username,
           /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/
@@ -128,7 +90,7 @@ export default {
       ) {
         return;
       }
-      if (!this.inputInspect("密码", this.password, /^[a-zA-Z]\w{5,17}$/)) {
+      if (!inputInspect("密码", this.password, /^[a-zA-Z]\w{5,17}$/)) {
         return;
       }
       if (!(this.password === this.confirmPassword)) {
@@ -139,7 +101,7 @@ export default {
         return;
       }
       if (
-        !this.inputInspect(
+        !inputInspect(
           "邮箱",
           this.email,
           /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
@@ -147,7 +109,7 @@ export default {
       ) {
         return;
       }
-      if (!this.inputInspect("手机号", this.phoneNum, /^[1]+[0-9]{10}$/)) {
+      if (!inputInspect("手机号", this.phoneNum, /^[1]+[0-9]{10}$/)) {
         return;
       }
 

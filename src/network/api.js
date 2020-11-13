@@ -35,3 +35,12 @@ export const getArticleDetail = data => {
         params: data
     })
 }
+
+export const getArticles = data => {
+    console.log("进入获取文章列表api")
+    return request({
+        url: "/getArticles",
+        methods: "get",
+        params: data
+    })
+}

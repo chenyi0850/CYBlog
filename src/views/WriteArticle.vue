@@ -1,12 +1,13 @@
 <template>
   <div id="WriteArticle">
     <mavon-editor id="editor" v-model="value" />
-    <el-button id="saveBtn" @click="save">保存</el-button>
+    <el-button id="saveBtn" @click="save">发表</el-button>
   </div>
 </template>
 
 <script>
 import { addArticle } from "@/network/api";
+import { formatDate } from "@/tools/formatDate"
 export default {
   name: "WriteArticle",
   data() {
@@ -16,15 +17,21 @@ export default {
   },
   methods: {
     async save() {
-      console.log(this.value)
+      // console.log(this.value.substring(0, this.value.indexOf("\r")))
       const result = await addArticle({
-        title: "我是标题",
         content: this.value,
         author: "admin",
-        time: "20201109"
+        time: formatDate(new Date())
       })
       console.log(result)
-    }
+      if(result.data === "保存成功") {
+        this.$message({
+          message: '发表成功',
+          type: 'success'
+        });
+        this.$router.push("/index")
+      }
+    },
   }
 };
 </script>

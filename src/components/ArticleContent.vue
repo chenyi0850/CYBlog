@@ -9,7 +9,7 @@
       </el-avatar>
       <div id="info">
         <div id="name">我的name</div>
-        <div id="time">2020年10月21日 9:50</div>
+        <div id="time">{{ time }}</div>
       </div>
     </div>
     <mavon-editor
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       isCollected: false,
-      articleAuthor: "",
+      time: "2020-11-12 12:39:50",
       content: ""
     };
   },
@@ -75,7 +75,7 @@ export default {
   },
   created() {
     getArticleDetail({
-      id: "5fac044f78b59949a430e959"
+      id: this.$route.query._id
     })
       .then(res => {
         console.log(res);
