@@ -37,7 +37,7 @@ export default {
 <style lang="less" scoped>
 #ArticleItem {
   width: 750px;
-  height: 200px;
+  height: 215px;
   padding: 10px 25px 0;
   // background: floralwhite;
   // box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -72,8 +72,8 @@ export default {
 #ArticleItem {
   .v-note-wrapper {
     z-index: 0 !important;
-    min-height: 170px !important;
-    height: 170px;
+    min-height: 180px !important;
+    height: 180px;
     box-shadow: none !important;
   }
   .v-show-content {

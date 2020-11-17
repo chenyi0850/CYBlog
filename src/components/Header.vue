@@ -13,15 +13,10 @@
       ><i class="el-icon-paperclip"></i>BLOG</el-menu-item
     >
     <el-menu-item index="index">首页</el-menu-item>
-    <el-menu-item index="essay">随笔</el-menu-item>
     <el-menu-item index="timeline">时间轴</el-menu-item>
     <el-menu-item index="message">留言</el-menu-item>
     <el-menu-item index="about">关于</el-menu-item>
-    <el-submenu index="writeArticle">
-      <template slot="title">{{ writeTitle }}</template>
-      <el-menu-item index="writeArticle">写博客</el-menu-item>
-      <el-menu-item index="writeEssay">写随笔</el-menu-item>
-    </el-submenu>
+    <el-menu-item index="writeArticle">写博客</el-menu-item>
     <el-menu-item style="margin-left: 350px"
       ><el-input
         placeholder="请输入内容"
@@ -43,23 +38,35 @@ export default {
   name: "Header",
   data() {
     return {
-      activeIndex: "index",
       circleUrl:
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
       input3: "",
-      writeTitle: "写博客"
     };
+  },
+  computed: {
+    activeIndex() {
+      switch (this.$route.path) {
+        case "/index":
+          return "index";
+        case "/timeline":
+          return "timeline";
+        case "/message":
+          return "message";
+        case "/about":
+          return "about";
+        case "/writeArticle":
+          return "writeArticle";
+        case "/user":
+          return "user";
+      }
+      return "index"
+    },
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
-      if(key == "writeArticle") {
-        this.writeTitle = "写博客"
-      } else {
-        this.writeTitle = "写随笔"
-      }
-    }
-  }
+    },
+  },
 };
 </script>
 

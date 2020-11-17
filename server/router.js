@@ -75,13 +75,83 @@ router.get('/getArticleDetail', async (req, res) => {
 // 获取博客列表
 router.get('/getArticles', async (req, res) => {
     console.log(req.query)
-    const articles = await article.find().sort({_id:-1}).limit(parseInt(req.query.limit)).skip(parseInt(req.query.skip))
+    const articles = await article.find().sort({ _id: -1 }).limit(parseInt(req.query.limit)).skip(parseInt(req.query.skip))
     const count = await article.countDocuments()
     articles.forEach(val => {
         val = val.content.substring(0, 330)
     })
     res.send({ articles, count })
     // console.log(result)
+})
+
+
+// 留言模型相关接口
+const message = require("./models/message")
+
+// 发表留言
+router.post('/addMessage', async (req, res) => {
+    console.log(req.body)
+    const result = await message.create(req.body)
+    console.log(result)
+    res.send("保存成功")
+})
+
+// 获取留言刘表
+router.get('/getMessages', async (req, res) => {
+    console.log(req.query)
+    const messages = await message.find().sort({ _id: -1 }).limit(parseInt(req.query.limit)).skip(parseInt(req.query.skip))
+    const count = await message.countDocuments()
+    res.send({ messages, count })
+})
+
+// 点赞
+router.post('/zan', async (req, res) => {
+    const doc = await message.findOne({ _id: req.body._id })
+    usernameIndex = doc.zanUsernames.indexOf(req.body.username)
+    if(usernameIndex !== -1) {
+        const result = await message.updateOne({ _id: req.body._id }, { $inc: { zan: -1 } })
+        doc.zanUsernames.splice(usernameIndex, 1)
+        doc.save()
+        res.send("取消点赞成功")
+    } else {
+        const result = await message.updateOne({ _id: req.body._id }, { $inc: { zan: 1 } })
+        doc.zanUsernames.push(req.body.username)
+        doc.save()
+        res.send("点赞成功")
+    }
+})
+
+// 点灭
+router.post('/cai', async (req, res) => {
+    const doc = await message.findOne({ _id: req.body._id })
+    usernameIndex = doc.caiUsernames.indexOf(req.body.username)
+    if(usernameIndex !== -1) {
+        const result = await message.updateOne({ _id: req.body._id }, { $inc: { cai: -1 } })
+        doc.caiUsernames.splice(usernameIndex, 1)
+        doc.save()
+        res.send("取消点灭成功")
+    } else {
+        const result = await message.updateOne({ _id: req.body._id }, { $inc: { cai: 1 } })
+        doc.caiUsernames.push(req.body.username)
+        doc.save()
+        res.send("点灭成功")
+    }
+})
+
+// 判断用户是否点过赞或灭
+router.post('/alreadyZanOrCai', async (req, res) => {
+    doc = await message.findOne({ _id: req.body._id })
+    const result = {
+        zanFlag: false,
+        caiFlag: false
+    }
+    if(doc.zanUsernames.indexOf(req.body.username) !== -1) {
+        result.zanFlag = true
+    }
+    if(doc.caiUsernames.indexOf(req.body.username) !== -1) {
+        result.caiFlag = true
+    }
+    res.send(result)
 })
 
 module.exports = router

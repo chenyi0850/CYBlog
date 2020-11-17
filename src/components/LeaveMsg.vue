@@ -1,26 +1,45 @@
 <template>
   <el-card id="LeaveMsg">
     <div id="cardBody">
-      <comment-editor :buttonText="buttonText"></comment-editor>
+      <comment-editor
+        :buttonText="buttonText"
+        @submit="comment"
+      ></comment-editor>
     </div>
   </el-card>
 </template>
 
 <script>
 import CommentEditor from "comment-message-editor";
+import { formatDate } from "@/tools/formatDate";
+import { addMessage } from "@/network/api";
 export default {
   name: "LeaveMsg",
   components: {
-    CommentEditor
+    CommentEditor,
   },
   data() {
     return {
-      buttonText: "登录后评论"
+      buttonText: "登录后评论",
     };
   },
   methods: {
-    onInput() {}
-  }
+    async comment(content) {
+      const result = await addMessage({
+        content,
+        author: "admin",
+        time: formatDate(new Date()),
+      });
+      console.log(result);
+      if (result.data === "保存成功") {
+        this.$message({
+          message: "评论成功",
+          type: "success",
+        });
+        location.reload();
+      }
+    },
+  },
 };
 </script>
 

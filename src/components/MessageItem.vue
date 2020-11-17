@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin: 10px">
+  <el-card style="margin: 10px" v-if="itemData">
     <div id="MessageItem">
       <div id="headImg">
         <el-avatar
@@ -11,34 +11,34 @@
       </div>
       <div id="content">
         <div id="top">
-          <div id="name">我的name</div>
-          <div id="time">2020年10月21日 9:50</div>
+          <div id="name">{{ itemData.author }}</div>
+          <div id="time">{{ itemData.time }}</div>
         </div>
-        <div id="text">
-          这个简写属性用于一次设置元素字体的两个或更多方面。使用 icon
-          等关键字可以适当地设置元素的字体，使之与用户计算机环境中的某个方面一致。注意，如果没有使用这些关键词，至少要指定字体大小和字体系列。
-        </div>
+        <div id="text" v-html="itemData.content"></div>
         <div id="bottom">
           <img
             :src="zanUrl"
             alt="点赞"
             @mouseover="changeZanImg(true)"
             @mouseout="changeZanImg(false)"
-            @click="clickZan"
+            @click="clickZan(itemData._id)"
           />
-          <p v-if="haveZan">{{ zanNum }}</p>
+          <p v-if="haveZan">{{ itemData.zan }}</p>
           <img
             :src="caiUrl"
             alt="点灭"
             @mouseover="changeCaiImg(true)"
             @mouseout="changeCaiImg(false)"
-            @click="clickCai"
+            @click="clickCai(itemData._id)"
           />
-          <p v-if="haveCai">{{ caiNum }}</p>
-          <el-link @click="reply" style="margin-left:20px">回复</el-link>
+          <p v-if="haveCai">{{ itemData.cai }}</p>
+          <el-link @click="reply" style="margin-left: 20px">回复</el-link>
         </div>
         <transition name="el-zoom-in-top">
-          <comment-editor :buttonText="buttonText" v-show="showReply"></comment-editor>
+          <comment-editor
+            :buttonText="buttonText"
+            v-show="showReply"
+          ></comment-editor>
         </transition>
       </div>
     </div>
@@ -47,10 +47,16 @@
 
 <script>
 import CommentEditor from "comment-message-editor";
+import { zan } from "@/network/api";
+import { cai } from "@/network/api";
+import { alreadyZanOrCai } from "@/network/api";
 export default {
   name: "MessageItem",
   components: {
-    CommentEditor
+    CommentEditor,
+  },
+  props: {
+    itemData: Object,
   },
   data() {
     return {
@@ -63,7 +69,7 @@ export default {
       zanFlag: false, //判断是否是点过赞的状态
       caiFlag: false, //判断是否是点过灭的状态
       showReply: false, //是否显示回复输入框
-      buttonText: "回复"
+      buttonText: "回复",
     };
   },
   methods: {
@@ -90,32 +96,72 @@ export default {
       }
     },
     //点赞或者点灭
-    clickZan() {
+    clickZan(_id) {
       if (!this.zanFlag) {
-        this.zanNum++;
+        zan({
+          _id,
+          username: "admin",
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.itemData.zan++;
         this.zanFlag = true;
         this.zanUrl = require("@/assets/zan-f.png");
         this.haveZan = true;
       } else {
-        this.zanNum--;
+        zan({
+          _id,
+          username: "admin",
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.itemData.zan--;
         this.zanFlag = false;
         this.zanUrl = require("@/assets/zan-l.png");
-        if (this.zanNum === 0) {
+        if (this.itemData.zan === 0) {
           this.haveZan = false;
         }
       }
     },
-    clickCai() {
+    clickCai(_id) {
       if (!this.caiFlag) {
-        this.caiNum++;
+        cai({
+          _id,
+          username: "admin",
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.itemData.cai++;
         this.caiFlag = true;
         this.caiUrl = require("@/assets/cai-f.png");
         this.haveCai = true;
       } else {
-        this.caiNum--;
+        cai({
+          _id,
+          username: "admin",
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.itemData.cai--;
         this.caiFlag = false;
         this.caiUrl = require("@/assets/cai-l.png");
-        if (this.haveCai === 0) {
+        if (this.itemData.cai === 0) {
           this.haveCai = false;
         }
       }
@@ -125,16 +171,34 @@ export default {
     },
     replyBlur() {
       this.showReply = false;
-    }
+    },
   },
   created() {
-    if (this.zanNum !== 0) {
+    alreadyZanOrCai({
+      _id: this.itemData._id,
+      username: "admin",
+    })
+      .then((res) => {
+        console.log(res);
+        this.zanFlag = res.data.zanFlag;
+        this.caiFlag = res.data.caiFlag;
+        if (this.zanFlag) {
+          this.zanUrl = require("@/assets/zan-f.png");
+        }
+        if (this.caiFlag) {
+          this.caiUrl = require("@/assets/cai-f.png");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    if (this.itemData.zan !== 0) {
       this.haveZan = true;
     }
-    if (this.caiNum !== 0) {
+    if (this.itemData.cai !== 0) {
       this.haveCai = true;
     }
-  }
+  },
 };
 </script>
 
