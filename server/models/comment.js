@@ -2,7 +2,11 @@ require("../tools/conn_mongodb")
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-const messageSchema = new Schema({
+const commentSchema = new Schema({
+    articleId: {
+        type: String,
+        required: true
+    },
     content: {
         type: String,
         required: true
@@ -27,5 +31,5 @@ const messageSchema = new Schema({
     caiUsernames: []
 })
 
-const messageModel = mongoose.model("message", messageSchema)
-module.exports = messageModel
+const commentModel = mongoose.model("comment", commentSchema)
+module.exports = commentModel

@@ -1,6 +1,7 @@
 <template>
-  <el-card style="margin: 10px" v-if="itemData">
-    <div id="MessageItem">
+  <div id="ReplyItem">
+    <div id="replyArea">
+      <el-divider></el-divider>
       <div id="headImg">
         <el-avatar
           :size="50"
@@ -11,7 +12,10 @@
       </div>
       <div id="content">
         <div id="top">
-          <div id="name">{{ itemData.author }}</div>
+          <div id="name">
+            {{ itemData.author }} <span style="font-weight: normal">回复</span>
+            {{ itemData.toAuthor }}
+          </div>
           <div id="time">{{ itemData.time }}</div>
         </div>
         <div id="text" v-html="itemData.content"></div>
@@ -34,29 +38,26 @@
           <p v-if="haveCai">{{ itemData.cai }}</p>
           <el-link @click="clickReply" style="margin-left: 20px">回复</el-link>
         </div>
-        <transition name="el-zoom-in-top">
-          <comment-editor
-            :buttonText="buttonText"
-            @submit="reply"
-            v-show="showReply"
-          ></comment-editor>
-        </transition>
-        <reply-list :replyId="itemData._id"></reply-list>
       </div>
+      <transition name="el-zoom-in-top">
+        <comment-editor
+          :buttonText="buttonText"
+          @submit="reply"
+          v-show="showReply"
+        ></comment-editor>
+      </transition>
     </div>
-  </el-card>
+  </div>
 </template>
 
 <script>
 import CommentEditor from "comment-message-editor";
-import ReplyList from "@/components/ReplyList";
-import { zan, cai, alreadyZanOrCai, reply } from "@/network/api";
+import { replyZan, replyCai, replyAlreadyZanOrCai, reply } from "@/network/api";
 import { formatDate } from "@/tools/formatDate";
 export default {
-  name: "MessageItem",
+  name: "ReplyItem",
   components: {
     CommentEditor,
-    ReplyList,
   },
   props: {
     itemData: Object,
@@ -99,7 +100,7 @@ export default {
     //点赞或者点灭
     clickZan(_id) {
       if (!this.zanFlag) {
-        zan({
+        replyZan({
           _id,
           username: "admin",
         })
@@ -114,7 +115,7 @@ export default {
         this.zanUrl = require("@/assets/zan-f.png");
         this.haveZan = true;
       } else {
-        zan({
+        replyZan({
           _id,
           username: "admin",
         })
@@ -134,7 +135,7 @@ export default {
     },
     clickCai(_id) {
       if (!this.caiFlag) {
-        cai({
+        replyCai({
           _id,
           username: "admin",
         })
@@ -149,7 +150,7 @@ export default {
         this.caiUrl = require("@/assets/cai-f.png");
         this.haveCai = true;
       } else {
-        cai({
+        replyCai({
           _id,
           username: "admin",
         })
@@ -175,7 +176,7 @@ export default {
     },
     reply(content) {
       reply({
-        id: this.itemData._id,
+        id: this.itemData.id,
         content,
         author: "admin",
         toAuthor: "admin2",
@@ -197,7 +198,7 @@ export default {
     },
   },
   created() {
-    alreadyZanOrCai({
+    replyAlreadyZanOrCai({
       _id: this.itemData._id,
       username: "admin",
     })
@@ -226,14 +227,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#MessageItem {
-  //   margin: 10px;
+#replyArea {
   display: flex;
-  // flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 #content {
-  width: 100%;
-  //   background: cadetblue;
+  width: calc(100% - 60px);
   margin-left: 10px;
   #top {
     display: flex;
@@ -265,9 +264,10 @@ export default {
 }
 </style>
 <style lang="less">
-#MessageItem {
+#ReplyItem {
   .comment-editor {
     margin-top: 10px;
+    width: 100%;
   }
   .content {
     height: 150px;
@@ -283,6 +283,10 @@ export default {
   }
   .submit-tiptext {
     display: none;
+  }
+  .el-divider {
+    margin: 15px 0 !important;
+    width: 100%;
   }
 }
 </style>

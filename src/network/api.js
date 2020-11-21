@@ -89,3 +89,92 @@ export const alreadyZanOrCai = data => {
         data
     })
 }
+
+export const reply = data => {
+    console.log("进入回复api")
+    return request({
+        url: "/reply",
+        method: "post",
+        data
+    })
+}
+
+export const getReplies = data => {
+    console.log("进入获取回复列表api")
+    return request({
+        url: "/getReplies",
+        method: "get",
+        params: data
+    })
+}
+
+export const replyZan = data => {
+    console.log("进入回复点赞api")
+    return request({
+        url: "/replyZan",
+        method: "post",
+        data
+    })
+}
+
+export const replyCai = data => {
+    console.log("进入回复点灭api")
+    return request({
+        url: "/replyCai",
+        method: "post",
+        data
+    })
+}
+
+export const replyAlreadyZanOrCai = data => {
+    console.log("进入判断用户是否对留言的回复点过赞或灭api")
+    return request({
+        url: "/replyAlreadyZanOrCai",
+        method: "post",
+        data
+    })
+}
+
+export const addComment = data => {
+    console.log("进入添加评论api")
+    return request({
+        url: "/addComment",
+        method: "post",
+        data
+    })
+}
+
+export const getComments = data => {
+    return request({
+        url: "/getComments",
+        method: "get",
+        params: data
+    })
+}
+
+export const commentZan = data => {
+    console.log("进入评论点赞api")
+    return request({
+        url: "/commentZan",
+        method: "post",
+        data
+    })
+}
+
+export const commentCai = data => {
+    console.log("进入评论点灭api")
+    return request({
+        url: "/commentCai",
+        method: "post",
+        data
+    })
+}
+
+export const commentAlreadyZanOrCai = data => {
+    console.log("进入判断用户是否对文章的评论点过赞或灭api")
+    return request({
+        url: "/commentAlreadyZanOrCai",
+        method: "post",
+        data
+    })
+}

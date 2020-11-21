@@ -2,7 +2,11 @@ require("../tools/conn_mongodb")
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-const messageSchema = new Schema({
+const replySchema = new Schema({
+    id: {
+        type: String,
+        required: true
+    },
     content: {
         type: String,
         required: true
@@ -10,6 +14,10 @@ const messageSchema = new Schema({
     author: {
         type: String,
         required: true
+    },
+    toAuthor: {
+        type: String,
+        require: true
     },
     time: {
         type: String,
@@ -27,5 +35,5 @@ const messageSchema = new Schema({
     caiUsernames: []
 })
 
-const messageModel = mongoose.model("message", messageSchema)
-module.exports = messageModel
+const replyModel = mongoose.model("reply", replySchema)
+module.exports = replyModel

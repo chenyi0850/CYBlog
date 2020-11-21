@@ -17,7 +17,7 @@ router.get('/list', (req, res) => {
 
 
 // 用户模型相关接口
-const user = require("./models/users")
+const user = require("./models/user")
 
 // 注册
 router.post('/register', (req, res) => {
@@ -54,7 +54,7 @@ router.post('/login', (req, res) => {
 
 
 // 博客模型相关接口
-const article = require("./models/articles")
+const article = require("./models/article")
 
 // 添加博客
 router.post('/addArticle', async (req, res) => {
@@ -141,6 +141,147 @@ router.post('/cai', async (req, res) => {
 // 判断用户是否点过赞或灭
 router.post('/alreadyZanOrCai', async (req, res) => {
     doc = await message.findOne({ _id: req.body._id })
+    const result = {
+        zanFlag: false,
+        caiFlag: false
+    }
+    if(doc.zanUsernames.indexOf(req.body.username) !== -1) {
+        result.zanFlag = true
+    }
+    if(doc.caiUsernames.indexOf(req.body.username) !== -1) {
+        result.caiFlag = true
+    }
+    res.send(result)
+})
+
+
+// 回复模型相关接口
+const reply = require("./models/reply")
+
+// 回复留言或者文章
+router.post('/reply', async (req, res) => {
+    console.log(req.body)
+    const result = await reply.create(req.body)
+    console.log(result)
+    res.send("保存成功")
+})
+
+// 获取回复列表
+router.get('/getReplies', async (req, res) => {
+    console.log(req.query)
+    const replies = await reply.find({id: req.query.id}).limit(parseInt(req.query.limit)).skip(parseInt(req.query.skip))
+    const count = await reply.find({id: req.query.id}).countDocuments()
+    res.send({ replies, count })
+})
+
+// 回复的点赞
+router.post('/replyZan', async (req, res) => {
+    const doc = await reply.findOne({ _id: req.body._id })
+    usernameIndex = doc.zanUsernames.indexOf(req.body.username)
+    if(usernameIndex !== -1) {
+        const result = await reply.updateOne({ _id: req.body._id }, { $inc: { zan: -1 } })
+        doc.zanUsernames.splice(usernameIndex, 1)
+        doc.save()
+        res.send("取消点赞成功")
+    } else {
+        const result = await reply.updateOne({ _id: req.body._id }, { $inc: { zan: 1 } })
+        doc.zanUsernames.push(req.body.username)
+        doc.save()
+        res.send("点赞成功")
+    }
+})
+
+// 回复的点灭
+router.post('/replyCai', async (req, res) => {
+    const doc = await reply.findOne({ _id: req.body._id })
+    usernameIndex = doc.caiUsernames.indexOf(req.body.username)
+    if(usernameIndex !== -1) {
+        const result = await reply.updateOne({ _id: req.body._id }, { $inc: { cai: -1 } })
+        doc.caiUsernames.splice(usernameIndex, 1)
+        doc.save()
+        res.send("取消点灭成功")
+    } else {
+        const result = await reply.updateOne({ _id: req.body._id }, { $inc: { cai: 1 } })
+        doc.caiUsernames.push(req.body.username)
+        doc.save()
+        res.send("点灭成功")
+    }
+})
+
+// 进入判断用户是否对留言的回复点过赞或灭
+router.post('/replyAlreadyZanOrCai', async (req, res) => {
+    doc = await reply.findOne({ _id: req.body._id })
+    const result = {
+        zanFlag: false,
+        caiFlag: false
+    }
+    if(doc.zanUsernames.indexOf(req.body.username) !== -1) {
+        result.zanFlag = true
+    }
+    if(doc.caiUsernames.indexOf(req.body.username) !== -1) {
+        result.caiFlag = true
+    }
+    res.send(result)
+})
+
+
+// 文章评论模型相关接口
+const comment = require("./models/comment")
+
+// 添加评论
+router.post('/addComment', async (req, res) => {
+    console.log(req.body)
+    const result = await comment.create(req.body)
+    console.log(result)
+    res.send("保存成功")
+})
+
+// 获取评论列表
+router.get('/getComments', async (req, res) => {
+    console.log(req.query)
+    const comments = await comment.find({articleId: req.query.articleId}).sort({ _id: -1 })
+    // const count = await reply.find({id: req.query.id}).countDocuments()
+    // res.send({ replies, count })
+    res.send(comments)
+})
+
+// 点赞
+router.post('/commentZan', async (req, res) => {
+    const doc = await comment.findOne({ _id: req.body._id })
+    usernameIndex = doc.zanUsernames.indexOf(req.body.username)
+    if(usernameIndex !== -1) {
+        const result = await comment.updateOne({ _id: req.body._id }, { $inc: { zan: -1 } })
+        doc.zanUsernames.splice(usernameIndex, 1)
+        doc.save()
+        res.send("取消点赞成功")
+    } else {
+        const result = await comment.updateOne({ _id: req.body._id }, { $inc: { zan: 1 } })
+        doc.zanUsernames.push(req.body.username)
+        doc.save()
+        res.send("点赞成功")
+    }
+})
+
+// 点灭
+router.post('/commentCai', async (req, res) => {
+    const doc = await comment.findOne({ _id: req.body._id })
+    usernameIndex = doc.caiUsernames.indexOf(req.body.username)
+    if(usernameIndex !== -1) {
+        const result = await comment.updateOne({ _id: req.body._id }, { $inc: { cai: -1 } })
+        doc.caiUsernames.splice(usernameIndex, 1)
+        doc.save()
+        res.send("取消点灭成功")
+    } else {
+        const result = await comment.updateOne({ _id: req.body._id }, { $inc: { cai: 1 } })
+        doc.caiUsernames.push(req.body.username)
+        doc.save()
+        res.send("点灭成功")
+    }
+})
+
+// 判断用户是否点过赞或灭
+router.post('/commentAlreadyZanOrCai', async (req, res) => {
+    doc = await comment.findOne({ _id: req.body._id })
     const result = {
         zanFlag: false,
         caiFlag: false

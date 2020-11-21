@@ -23,7 +23,7 @@
       :ishljs="true"
     />
     <el-divider id="commentArea">评论</el-divider>
-    <message-item></message-item>
+    <comment-list></comment-list>
     <div id="aside">
       <el-tooltip content="写博客" placement="bottom"
         ><div class="asideItem" @click="toWrite">
@@ -36,29 +36,26 @@
       ></el-tooltip>
       <el-tooltip content="评论" placement="bottom"
         ><div class="asideItem" @click="toComment">
-          <i
-            class="el-icon-chat-line-round
-"
-          ></i></div
+          <i class="el-icon-chat-line-round"></i></div
       ></el-tooltip>
     </div>
   </el-card>
 </template>
 
 <script>
-import MessageItem from "@/components/MessageItem";
+import CommentList from "@/components/CommentList";
 import { getArticleDetail } from "@/network/api";
 
 export default {
   name: "ArticleContent",
   components: {
-    MessageItem
+    CommentList,
   },
   data() {
     return {
       isCollected: false,
       time: "2020-11-12 12:39:50",
-      content: ""
+      content: "",
     };
   },
   methods: {
@@ -71,20 +68,20 @@ export default {
     },
     toComment() {
       document.getElementById("commentArea").scrollIntoView();
-    }
+    },
   },
   created() {
     getArticleDetail({
-      id: this.$route.query._id
+      id: this.$route.query._id,
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         this.content = res.data;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-  }
+  },
 };
 </script>
 
@@ -136,7 +133,7 @@ export default {
 </style>
 <style lang="less">
 #ArticleContent {
-  .el-divider--horizontal {
+  .el-divider {
     margin: 40px 0;
   }
   .el-divider__text {
