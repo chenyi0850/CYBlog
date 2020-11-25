@@ -82,7 +82,7 @@ export default {
     },
     register() {
       if (
-        !inputInspect(
+        !inputInspect(this,
           "用户名",
           this.username,
           /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/
@@ -90,7 +90,7 @@ export default {
       ) {
         return;
       }
-      if (!inputInspect("密码", this.password, /^[a-zA-Z]\w{5,17}$/)) {
+      if (!inputInspect(this,"密码", this.password, /^[a-zA-Z]\w{5,17}$/)) {
         return;
       }
       if (!(this.password === this.confirmPassword)) {
@@ -101,7 +101,7 @@ export default {
         return;
       }
       if (
-        !inputInspect(
+        !inputInspect(this,
           "邮箱",
           this.email,
           /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
@@ -109,7 +109,7 @@ export default {
       ) {
         return;
       }
-      if (!inputInspect("手机号", this.phoneNum, /^[1]+[0-9]{10}$/)) {
+      if (!inputInspect(this,"手机号", this.phoneNum, /^[1]+[0-9]{10}$/)) {
         return;
       }
 

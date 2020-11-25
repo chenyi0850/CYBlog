@@ -150,6 +150,7 @@ export default {
 <style lang="less" scoped>
 #UserInfo {
   width: 380px;
+  height: 440px;
   margin: 10px;
 }
 .info {

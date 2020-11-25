@@ -178,3 +178,40 @@ export const commentAlreadyZanOrCai = data => {
         data
     })
 }
+
+export const uploadImg = data => {
+    console.log("进入上传图片api")
+    return request({
+        url: "/uploadImg",
+        method: "post",
+        data,
+        headers: { "Content-Type": "multipart/form-data" },
+    })
+}
+
+export const collectArticle = data => {
+    console.log("进去收藏文章api")
+    return request({
+        url: "/collectArticle",
+        method: "post",
+        data
+    })
+}
+
+export const getTimeline = data => {
+    console.log("进入获取时间轴api")
+    return request({
+        url: "/getTimeline",
+        method: "get",
+        params: data
+    })
+} 
+
+export const getMyArticles = data => {
+    console.log("进入获取用户文章列表")
+    return request({
+        url: "/getMyArticles",
+        method: "get",
+        params: data
+    })
+}

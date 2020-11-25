@@ -3,10 +3,6 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const articleSchema = new Schema({
-    // title: {
-    //     type: String,
-    //     required: true
-    // },
     content: {
         type: String,
         required: true
@@ -19,17 +15,7 @@ const articleSchema = new Schema({
         type: String,
         require: true
     },
-    comments: {
-        content: {
-            type: String
-        },
-        author: {
-            type: String
-        },
-        time: {
-            type: String
-        }
-    }
+    collectedUsers: []
 })
 
 const articleModel = mongoose.model("article", articleSchema)

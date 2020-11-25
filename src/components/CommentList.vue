@@ -20,6 +20,9 @@ export default {
     CommentEditor,
     CommentItem,
   },
+  props: {
+      articleId: String
+  },
   data() {
     return {
       commentItems: [],
@@ -35,7 +38,7 @@ export default {
     },
     async comment(content) {
       const result = await addComment({
-        articleId: "1",
+        articleId: this.articleId,
         content,
         author: "admin",
         time: formatDate(new Date()),
@@ -51,7 +54,7 @@ export default {
     },
   },
   created() {
-    this.getComments("1");
+    this.getComments(this.articleId);
   },
 };
 </script>

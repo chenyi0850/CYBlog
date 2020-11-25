@@ -23,7 +23,7 @@
       :ishljs="true"
     />
     <el-divider id="commentArea">评论</el-divider>
-    <comment-list></comment-list>
+    <comment-list :articleId="$route.query._id"></comment-list>
     <div id="aside">
       <el-tooltip content="写博客" placement="bottom"
         ><div class="asideItem" @click="toWrite">
@@ -44,7 +44,7 @@
 
 <script>
 import CommentList from "@/components/CommentList";
-import { getArticleDetail } from "@/network/api";
+import { getArticleDetail, collectArticle } from "@/network/api";
 
 export default {
   name: "ArticleContent",
@@ -65,6 +65,13 @@ export default {
     },
     collect() {
       this.isCollected = !this.isCollected;
+      collectArticle({ username: "admin", _id: this.$route.query._id })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     toComment() {
       document.getElementById("commentArea").scrollIntoView();
@@ -73,10 +80,14 @@ export default {
   created() {
     getArticleDetail({
       id: this.$route.query._id,
+      username: "admin"
     })
       .then((res) => {
         console.log(res);
-        this.content = res.data;
+        this.content = res.data.content;
+        if (res.data.isCollected === true) {
+          this.isCollected = true;
+        }
       })
       .catch((err) => {
         console.log(err);

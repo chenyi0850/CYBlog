@@ -1,34 +1,32 @@
 <template>
   <el-card id="UserBehavior">
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="我的动态" name="first">
-        <Timeline/>
+      <el-tab-pane label="我的博客" name="first">
+        <my-article-list></my-article-list>
       </el-tab-pane>
-      <el-tab-pane label="我的博客" name="second"><el-button type="primary">写博客</el-button></el-tab-pane>
-      <el-tab-pane label="我的随笔" name="third"><el-button type="primary">写随笔</el-button></el-tab-pane>
-      <el-tab-pane label="我评论的" name="fourth">评论</el-tab-pane>
-      <el-tab-pane label="我的收藏" name="fifth">收藏</el-tab-pane>
+      <el-tab-pane label="我评论的" name="second">评论</el-tab-pane>
+      <el-tab-pane label="我的收藏" name="third">收藏</el-tab-pane>
     </el-tabs>
   </el-card>
 </template>
 
 <script>
-import Timeline from "@/views/Timeline"
+import MyArticleList from "./MyArticleList";
 export default {
   name: "UserBehavior",
   components: {
-    Timeline
+    MyArticleList,
   },
   data() {
     return {
-      activeName: "first"
+      activeName: "first",
     };
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
-    }
-  }
+    },
+  },
 };
 </script>
 
