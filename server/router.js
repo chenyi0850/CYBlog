@@ -121,7 +121,7 @@ router.get('/getArticles', async (req, res) => {
 // 根据用户获取博客列表
 router.get('/getMyArticles', async (req, res) => {
     console.log(req.query)
-    const articles = await article.find({author: req.query.author}).sort({ _id: -1 }).limit(parseInt(req.query.limit)).skip(parseInt(req.query.skip))
+    const articles = await article.find({ author: req.query.author }).sort({ _id: -1 }).limit(parseInt(req.query.limit)).skip(parseInt(req.query.skip))
     const count = await article.countDocuments()
     articles.forEach(val => {
         val = val.content.substring(0, 330)
@@ -143,6 +143,38 @@ router.post('/collectArticle', async (req, res) => {
         doc.save()
         res.send("收藏成功")
     }
+})
+
+// 根据用户收藏获取博客列表
+const articleCache = require("./models/articleCache")
+router.get('/getMyArticlesByCollect', async (req, res) => {
+    console.log(req.query)
+    const articles = await article.find().sort({ _id: -1 })
+    let counter = 0
+    articles.forEach(async val => {
+        if (val.collectedUsers.indexOf(req.query.username) !== -1) {
+            await articleCache.create({
+                articleId: val._id,
+                content: val.content,
+                time: val.time
+            })
+        }
+        counter++
+        if (counter === articles.length) {
+            const articleCaches = await articleCache.find().limit(parseInt(req.query.limit)).skip(parseInt(req.query.skip))
+            const count = await articleCache.countDocuments()
+            articleCaches.forEach(val => {
+                val = val.content.substring(0, 330)
+            })
+            console.log('收藏的' + articleCaches)
+            res.send({ articles: articleCaches, count })
+        }
+    })
+    await articleCache.remove({}, err => {
+        if(!err) {
+            console.log("收藏过的文章cache删除成功")
+        }
+    })
 })
 
 
@@ -293,6 +325,39 @@ router.post('/replyAlreadyZanOrCai', async (req, res) => {
 
 // 文章评论模型相关接口
 const comment = require("./models/comment")
+
+// 根据用户评论获取博客列表
+const articleCache2 = require("./models/articleCache2")
+router.get('/getMyArticlesByComment', async (req, res) => {
+    const comments = await comment.find({ author: req.query.author }).sort({ _id: -1 })
+    // const comments = await comment.find({author: req.query.author}).sort({ _id: -1 }).limit(parseInt(req.query.limit)).skip(parseInt(req.query.skip))
+    // const count = await article.countDocuments()
+    console.log("getMyArticlesByComment" + comments.length)
+    let counter = 0
+    comments.forEach(async val => {
+        let articles = await article.find({ _id: val.articleId })
+        await articleCache2.create({
+            articleId: articles[0]._id,
+            content: articles[0].content,
+            time: articles[0].time
+        })
+        counter++
+        if (counter === comments.length) {
+            const articleCaches = await articleCache2.find().limit(parseInt(req.query.limit)).skip(parseInt(req.query.skip))
+            const count = await articleCache2.countDocuments()
+            articleCaches.forEach(val => {
+                val = val.content.substring(0, 330)
+            })
+            console.log(articleCaches)
+            res.send({ articles: articleCaches, count })
+        }
+    })
+    await articleCache2.remove({}, err => {
+        if (!err) {
+            console.log("评论过的博客cache删除成功")
+        }
+    })
+})
 
 // 添加评论
 router.post('/addComment', async (req, res) => {

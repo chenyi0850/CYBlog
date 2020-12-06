@@ -1,6 +1,6 @@
 <template>
   <div id="MyArticleList">
-    <my-article-item
+    <my-comment-articles-item
       v-for="item in articleItems"
       :key="item.title"
       :itemData="item"
@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import MyArticleItem from "./MyArticleItem";
-import { getMyArticles } from "@/network/api.js";
+import MyCommentArticlesItem from "./MyCommentArticlesItem";
+import { getMyArticlesByComment } from "@/network/api.js";
 export default {
   name: "MyArticleList",
   components: {
-    MyArticleItem
+    MyCommentArticlesItem
   },
   data() {
     return {
@@ -37,8 +37,8 @@ export default {
   },
   methods: {
     // 获取文章列表请求
-    getMyArticles(skip) {
-      getMyArticles({
+    getMyArticlesByComment(skip) {
+      getMyArticlesByComment({
         limit: this.limit,
         skip,
         author: "admin"
@@ -50,7 +50,7 @@ export default {
     },
     // 页码改变
     handleCurrentChange(val) {
-      this.getMyArticles((val - 1) * this.limit)
+      this.getMyArticlesByComment((val - 1) * this.limit)
     },
     toArticleDetail(_id) {
       console.log(_id);
@@ -63,7 +63,7 @@ export default {
     }
   },
   created() {
-    this.getMyArticles(0)
+    this.getMyArticlesByComment(0)
   }
 };
 </script>

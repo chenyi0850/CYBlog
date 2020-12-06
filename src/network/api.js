@@ -208,9 +208,27 @@ export const getTimeline = data => {
 } 
 
 export const getMyArticles = data => {
-    console.log("进入获取用户文章列表")
+    console.log("进入获取用户文章列表api")
     return request({
         url: "/getMyArticles",
+        method: "get",
+        params: data
+    })
+}
+
+export const getMyArticlesByComment = data => {
+    console.log("进入根据用户评论获取博客列表api")
+    return request({
+        url: "/getMyArticlesByComment",
+        method: "get",
+        params: data
+    })
+}
+
+export const getMyArticlesByCollect = data => {
+    console.log("进入根据用户收藏获取博客列表api")
+    return request({
+        url: "/getMyArticlesByCollect",
         method: "get",
         params: data
     })

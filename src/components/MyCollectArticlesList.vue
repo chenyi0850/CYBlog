@@ -1,6 +1,6 @@
 <template>
   <div id="MyArticleList">
-    <my-article-item
+    <my-collect-articles-item
       v-for="item in articleItems"
       :key="item.title"
       :itemData="item"
@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import MyArticleItem from "./MyArticleItem";
-import { getMyArticles } from "@/network/api.js";
+import MyCollectArticlesItem from "./MyCollectArticlesItem";
+import { getMyArticlesByCollect } from "@/network/api.js";
 export default {
   name: "MyArticleList",
   components: {
-    MyArticleItem
+    MyCollectArticlesItem
   },
   data() {
     return {
@@ -37,11 +37,11 @@ export default {
   },
   methods: {
     // 获取文章列表请求
-    getMyArticles(skip) {
-      getMyArticles({
+    getMyArticlesByCollect(skip) {
+      getMyArticlesByCollect({
         limit: this.limit,
         skip,
-        author: "admin"
+        username: "admin"
       }).then(res => {
         console.log(res.data);
         this.articleItems = res.data.articles;
@@ -50,7 +50,7 @@ export default {
     },
     // 页码改变
     handleCurrentChange(val) {
-      this.getMyArticles((val - 1) * this.limit)
+      this.getMyArticlesByCollect((val - 1) * this.limit)
     },
     toArticleDetail(_id) {
       console.log(_id);
@@ -63,7 +63,7 @@ export default {
     }
   },
   created() {
-    this.getMyArticles(0)
+    this.getMyArticlesByCollect(0)
   }
 };
 </script>
